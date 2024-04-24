@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Property;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,16 +11,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PropertyContactMail extends Mailable
+class PropertyContactMail extends Mailable 
 {
-    use Queueable, SerializesModels;
+    use  SerializesModels;
 
     /**
      * Create a new message instance.
      */
     public function __construct(public Property $property, public array $userData)
     {
+
         //
+
     }
 
     /**
@@ -27,6 +30,7 @@ class PropertyContactMail extends Mailable
      */
     public function envelope(): Envelope
     {
+
         return new Envelope(
             subject: 'Je suis intéressé par le bien suivant : ' . $this->property->title,
             replyTo: $this->userData['email'],

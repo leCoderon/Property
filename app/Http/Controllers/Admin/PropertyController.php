@@ -38,6 +38,7 @@ class PropertyController extends Controller
      */
     public function create(): view
     {
+        
         $property = new Property();
         $options = Option::pluck('name', 'id');
         return view('admin.properties.form', compact('property', 'options'));
@@ -128,7 +129,6 @@ class PropertyController extends Controller
     {
         event(new DeletePropertyEvent($property));
         $property->delete();
-
         return to_route("admin.property.index")->with('success', 'La propriété a bien été supprimé');
     }
 
@@ -140,6 +140,6 @@ class PropertyController extends Controller
     public function deleteImage(Image $image)
     {
         $image->delete();
-        return back()->with('success', 'L\'image a bien été supprimé');
+                return back()->with('success', 'L\'image a bien été supprimé');
     }
 }

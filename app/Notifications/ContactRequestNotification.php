@@ -2,20 +2,19 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
+use App\Models\Property;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class LoginNotification extends Notification  implements ShouldQueue
+class ContactRequestNotification extends Notification
 {
-    use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public User $user)
+    public function __construct(public Property $property, public array $userData)
     {
         //
     }
@@ -27,7 +26,7 @@ class LoginNotification extends Notification  implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -36,19 +35,13 @@ class LoginNotification extends Notification  implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Nouvelle conexion à l\'espace d\'administration !')
-            ->greeting('Bonjour Mr ' . $this->user->name)
-            ->action('Accéder à l\'espace d\'administration', url('/admin/property'))
-            ->line('Si ce n\'était pas vous alors veuillez vérifier !');
-    }
-
-    public function toDatabase(object $notifiable)
-    {
-        return [
-            'Object' => 'Nouvelle conexion !',
-            'User_id: ' => $this->user->id,
-            'User_email: ' => $this->user->email,
-        ];
+            ->subject('Je suis intéressé par le bien suivant : ' . $this->property->title)
+            ->from($this->userData['email'])
+            ->replyTo($this->userData['email'])
+            ->line("Titre du bien: " . $this->property->title)
+            ->line("Prix: " . $this->property->price)
+            ->line("Description: " . $this->property->price)
+            ->action('Consulter la liste des biens', url('/admin/property'));
     }
 
     /**

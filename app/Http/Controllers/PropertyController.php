@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Events\ContactRequestEvent;
-use App\Events\TestEvent;
 use App\Http\Requests\ContactFormRequest;
 use App\Http\Requests\SearchFormRequest;
 use App\Mail\PropertyContactMail;
 use App\Models\Property;
-use Illuminate\Contracts\Mail\Mailable;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Notifications\ContactRequestNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class PropertyController extends Controller
 {
+    use RefreshDatabase;
     public function index(SearchFormRequest $request)
     {
+
         // We set a request on our model Property
         $query = Property::query();
 
@@ -46,6 +49,7 @@ class PropertyController extends Controller
         return view("property.index", compact('properties', 'propertiesAll', 'input'));
     }
 
+
     public function show(string $slug, Property $property)
     {
         if ($slug !== $property->getSlug()) {
@@ -53,10 +57,37 @@ class PropertyController extends Controller
         }
         return view('property.show', compact('property'));
     }
+    public function services()
+    {
 
+        return view('property.services');
+    }
+    public function about()
+    {
+
+        return view('property.about');
+    }
+
+    /*
+    * Display the contact us page
+    */
+    public function contactUs()
+    {
+
+        return view('property.contact');
+    }
+
+
+    /*
+    * handle contact request from users
+    * @param ContactFormRequest $request
+    */
+    
     public function contact(ContactFormRequest $request, Property $property)
     {
-        event(new ContactRequestEvent($property, $request->validated() ));
+        // event(new ContactRequestEvent($property, $request->validated() ));
+        $admin = User::find(1);
+        Notification::send($admin, new ContactRequestNotification($property, $request->validated()));
         // Mail::send(new PropertyContactMail($property, $request->validated()));
         return back()->with('success', 'Votre message a bien été envoyé');
     }

@@ -71,9 +71,9 @@
                                 </li>
                             </ul> --}}
                         </li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="{{ route('property.services') }}">Services</a></li>
+                        <li><a href="{{ route('property.about') }}">About</a></li>
+                        <li><a href="{{ route('property.contactus') }}">Contact Us</a></li>
                     </ul>
 
                     <a href="#"
@@ -94,12 +94,12 @@
                 <div class="col-lg-4">
                     <div class="widget">
                         <h3>Contact</h3>
-                        <address>43 Raymouth Rd. Baltemoer, London 3910</address>
+                        <address>43 Abobo. Avocatier, Abidjan 3910</address>
                         <ul class="list-unstyled links">
-                            <li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-                            <li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+                            <li><a href="tel://11234567890">+225 0584784581</a></li>
+                            <li><a href="tel://11234567890">+225 0584784581</a></li>
                             <li>
-                                <a href="mailto:info@mydomain.com">info@mydomain.com</a>
+                                <a href="mailto:info@mydomain.com">leCoderon@gmail.com</a>
                             </li>
                         </ul>
                     </div>

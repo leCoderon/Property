@@ -31,6 +31,9 @@ class UserEventSubscriber
             Notification::send($user, new LoginNotification($user));
             return true;
         }
+        else{
+            return false;
+        }
     }
 
     /**

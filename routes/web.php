@@ -20,6 +20,9 @@ use App\Http\Controllers\PropertyController as ControllersPropertyController;
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
 Route::get('/properties', [ControllersPropertyController::class, 'index'])->name('property.index');
+Route::get('/services', [ControllersPropertyController::class, 'services'])->name('property.services');
+Route::get('/about', [ControllersPropertyController::class, 'about'])->name('property.about');
+Route::get('/contact-us', [ControllersPropertyController::class, 'contactUs'])->name('property.contactus');
 Route::get('/properties/{slug}-{property}', [ControllersPropertyController::class, 'show'])->name('property.show')->where([
     'id' => '[0-9]+',
     'slug' => '[0-9a-z\-]+',

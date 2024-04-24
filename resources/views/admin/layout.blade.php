@@ -30,44 +30,43 @@
 </head>
 
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-dark" style="background: {{ $color }}">
         <div class="container">
             <a class="navbar-brand" href="{{ route('homepage') }}">Property</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 @php
-                    $route = request()->route()->getName();
-                @endphp
+                $route = request()->route()->getName();
+            @endphp
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a @class(['nav-link', 'active' => str_contains($route, 'property')]) href="{{ route('admin.property.index') }}">Gérer les biens </a>
+                </li>
+                <li class="nav-item">
+                    <a @class(['nav-link', 'active' => str_contains($route, 'option')]) href="{{ route('admin.option.index') }}">Gérer les options </a>
+                </li>
+
+            </ul>
+
+            @auth
+            <div class="ms-auto">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a @class(['nav-link', 'active' => str_contains($route, 'property')]) href="{{ route('admin.property.index') }}">Gérer les biens </a>
+                    <li class="nav-item ">
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button class="btn bg-white" style="color:  {{ $color }}">Se déconnecter</button>
+                        </form>
                     </li>
-                    <li class="nav-item">
-                        <a @class(['nav-link', 'active' => str_contains($route, 'option')]) href="{{ route('admin.option.index') }}">Gérer les options </a>
-                    </li>
-
                 </ul>
-                @auth
-
-                    <div class="ms-auto">
-                        <ul class="navbar-nav">
-                            <li class="nav-item ">
-                                <form action="{{ route('logout') }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn bg-white" style="color:  {{ $color }}">Se déconnecter</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                @endauth
-
+            </div>
+        @endauth
             </div>
         </div>
-
     </nav>
     <div class="container mt-5">
 
@@ -152,7 +151,8 @@
             }
         });
     </script>
-
+{{-- Boostrap js --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 

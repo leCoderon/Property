@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\AdminLoginEvent;
 use App\Events\LoginEvent;
 use App\Http\Requests\AuthLoginRequest;
+use App\Jobs\DemoJob;
 use App\Mail\AdminLoginMail;
 use App\Notifications\LogoutNotification;
 use App\Notifications\MyNotification;
@@ -12,11 +13,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AuthController extends Controller
 {
     public function login()
     {
-
         return view('auth.login');
     }
 
@@ -25,8 +27,7 @@ class AuthController extends Controller
         $credentials = $request->validated();
 
         $res = LoginEvent::dispatchIf(true, $credentials, $request);
-
-        if ($res !== null) {
+        if (sizeof($res) > 0) {
             if ($res[0]) {
                 // Send new Email when user login
                 event(new AdminLoginEvent());
